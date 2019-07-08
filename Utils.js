@@ -74,7 +74,7 @@ function standardHashCodeFunction(a) {
 }
 
 function Set(hashFunction, equalsFunction) {
-    this.data = {};
+    this.data = Object.create(null);
     this.hashFunction = hashFunction || standardHashCodeFunction;
     this.equalsFunction = equalsFunction || standardEqualsFunction;
     return this;
@@ -95,8 +95,8 @@ Object.defineProperty(Set.prototype, "length", {
 Set.prototype.add = function (value) {
     var hash = this.hashFunction(value);
     var key = "hash_" + hash;
-    if (key in this.data) {
-        var values = this.data[key];
+    var values = this.data[key];
+    if (values) {
         for (var i = 0; i < values.length; i++) {
             if (this.equalsFunction(value, values[i])) {
                 return values[i];

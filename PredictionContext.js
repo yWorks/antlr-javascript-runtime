@@ -79,7 +79,7 @@ function calculateHashString(parent, returnState) {
 // can be used for both lexers and parsers.
 
 function PredictionContextCache() {
-	this.cache = {};
+	this.cache = Object.create(null);
 	return this;
 }
 
