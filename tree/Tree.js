@@ -64,9 +64,12 @@ function ParseTreeVisitor() {
 
 ParseTreeVisitor.prototype.visit = function(ctx) {
  	if (Array.isArray(ctx)) {
-		return ctx.map(function(child) {
-            return child.accept(this);
-        }, this);
+		var result = new Array(ctx.length);
+		for (var i = 0; i < ctx.length; i++) {
+			var child = ctx[i];
+			result[i] = child.accept(this)
+		}
+		return result
 	} else {
 		return ctx.accept(this);
 	}
