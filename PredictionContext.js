@@ -119,6 +119,7 @@ function SingletonPredictionContext(parent, returnState) {
 	PredictionContext.call(this, hashCode);
 	this.parentCtx = parent;
 	this.returnState = returnState;
+	this.cachedToString = null
 }
 
 SingletonPredictionContext.prototype = Object.create(PredictionContext.prototype);
@@ -165,16 +166,24 @@ SingletonPredictionContext.prototype.equals = function(other) {
 };
 
 SingletonPredictionContext.prototype.toString = function() {
+	if (this.cachedToString) {
+		return this.cachedToString
+	}
+
+	var s;
 	var up = this.parentCtx === null ? "" : this.parentCtx.toString();
 	if (up.length === 0) {
 		if (this.returnState === PredictionContext.EMPTY_RETURN_STATE) {
-			return "$";
+			s = "$";
 		} else {
-			return "" + this.returnState;
+			s = "" + this.returnState;
 		}
 	} else {
-		return "" + this.returnState + " " + up;
+		s = "" + this.returnState + " " + up;
 	}
+
+	this.cachedToString = s;
+	return s
 };
 
 function EmptyPredictionContext() {
